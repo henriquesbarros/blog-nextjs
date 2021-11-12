@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import SEO from "../components/SEO";
 
 interface Post {
   id: string;
@@ -12,6 +13,7 @@ interface HomeProps {
 export default function Home({posts}: HomeProps) {
   return (
     <>
+      <SEO title="Home" excludeTitleSufix/>
       <h1>Post</h1>
       <ul>
         {posts.map(({id, title}) => (
