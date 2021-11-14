@@ -1,5 +1,9 @@
 import { GetStaticProps } from "next"
+import Link from 'next/link';
+
 import SEO from "../../components/SEO";
+
+import styles from './posts.module.scss'
 
 interface Post {
   id: string;
@@ -10,28 +14,29 @@ interface PostsProps {
   posts: Post[];
 }
 
-export default function Posts({posts}: PostsProps) {
+export default function Posts() {
   return (
     <>
       <SEO title="Posts" excludeTitleSufix/>
-      <h1>Post</h1>
-      <ul>
-        {posts.map(({id, title}) => (
-          <li key={id}>Título: {title}</li>
-        ))}
-      </ul>
+
+      <main className={styles.container}>
+        <div className={styles.posts}>
+          <Link href='#'>
+            <a>
+              <time>14 de novembro de 2021</time>
+              <strong>Título</strong>
+              <p>Parágrafo</p>
+            </a>
+          </Link>
+        </div>
+      </main>
     </>
   )
 }
 
-export const getStaticProps: GetStaticProps<PostsProps> = async () => {
-  const response = await fetch('http://localhost:3333/posts');
-  const posts = await response.json();
-
-  return {
-    props: {
-      posts
-    },
-    revalidate: 5 // Em segundos
+export const getStaticProps: GetStaticProps = async () => {
+    return {
+      props: {},
+      revalidate: 60 * 60 * 12 // 12H
   }
 }
