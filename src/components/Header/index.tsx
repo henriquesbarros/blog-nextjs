@@ -5,7 +5,7 @@ export function Header() {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <img src="/logo.svg" alt="DevNews" />
+        <img src="/logo.svg" alt="DevNews!" />
         <nav>
           <ActiveLink href="/" activeClassName={styles.active}>
             <a>Home</a>
@@ -16,5 +16,5 @@ export function Header() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
