@@ -3,9 +3,9 @@ import Link from 'next/link';
 import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
 
-import SEO from "../../components/SEO";
-
 import { getPrismicClient } from "../../services/prismic";
+
+import SEO from "../../components/SEO";
 
 import styles from './posts.module.scss'
 
@@ -27,7 +27,7 @@ export default function Posts({ posts }: PostsProps) {
       <main className={styles.container}>
         <div className={styles.posts}>
           {posts.map(post => (
-            <Link href='#' key={post.slug}>
+            <Link href={`/posts/${post.slug}`} key={post.slug}>
               <a>
                 <time>{post.updateAt}</time>
                 <strong>{post.title}</strong>
