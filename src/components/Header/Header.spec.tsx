@@ -15,8 +15,6 @@ describe('Header component', () => {
   it('renders correctly', () => {
     const { getByText, getByAltText, getByRole } = render(<Header />);
 
-    screen.logTestingPlaygroundURL()
-
     expect(getByText('Home')).toBeInTheDocument();
     expect(getByText('Posts')).toBeInTheDocument();
     expect(getByAltText('DevNews!')).toBeInTheDocument();
