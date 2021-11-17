@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import {useRouter} from 'next/router';
-import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
-
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale'
 import { getPrismicClient } from "../../services/prismic";
 
 import SEO from "../../components/SEO";
@@ -14,7 +14,7 @@ interface PostProps {
     slug: string;
     title: string;
     content: string;
-    updateAt: string
+    updatedAt: string
   }
 }
 
@@ -30,7 +30,7 @@ export default function Post({ post }: PostProps) {
       <main className={styles.container}>
         <article className={styles.post}>
           <h1>{post.title}</h1>
-          <time>{post.updateAt}</time>
+          <time>{post.updatedAt}</time>
           <div
             className={styles.content}
             dangerouslySetInnerHTML={{ __html: post.content }}
@@ -49,25 +49,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const {slug} = context.params
+  const { slug } = context.params;
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('post', String(slug), {})
+  const response = await prismic.getByUID('post', String(slug), {});
 
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    content: RichText.asText(response.data.content),
-    updateAt: new Date(response.last_publication_date).toLocaleDateString(
-      'pt-BR',
-      {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      },
+    content: RichText.asHtml(response.data.content),
+    updatedAt: format(
+      new Date(response.last_publication_date),
+      "d 'de' MMMM 'de' yyyy",
+      { locale: ptBR }
     ),
-  }
-
+  };
 
   return {
     props: {
